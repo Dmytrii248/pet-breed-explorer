@@ -11,7 +11,11 @@ export const AnimalDetails = <T extends TAnimalBreedBase>({
   galery,
 }: IProps) => (
   <div>
-    {"origin" in breed ? <CatDetails breed={breed} /> : <DogDetails />}
+    {"origin" in breed ? (
+      <CatDetails breed={breed} />
+    ) : (
+      <DogDetails breed={breed} />
+    )}
     <Galery galery={galery} />
   </div>
 );

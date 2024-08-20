@@ -36,7 +36,9 @@ const Page = () => {
 
   return (
     <div>
-      <button onClick={() => back()}>Back</button>
+      <button onClick={() => back()} className="text-xl font-bold">
+        {"<- Back"}
+      </button>
       <AnimalDetails breed={breed} galery={galery} />
     </div>
   );
