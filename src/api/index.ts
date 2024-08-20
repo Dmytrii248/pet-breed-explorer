@@ -1,58 +1,74 @@
-import { TPet } from "@/types";
+import {
+  catRequestOptions,
+  dogRequestOptions,
+  THE_CAT_URL,
+  THE_DOG_URL,
+} from "@/constants";
+import { TPet, TCatBreed, TDogBreed, TPetPhoto } from "@/types";
 
-const CAT_API =
-  "live_M04FIOlnmFnQMUBluzW5oOQjOgmTJ450bieitS28YtsmUkK2mv6B7jUJcDTXfeRu";
-const DOG_API =
-  "live_ZBoqyWgBIP85rL09YRwwnTSJvqjBg4rHdYEdUJ0sbrG7v4miVugqOovWwDrbBXw7";
+const apiFetch = async <T>({
+  url,
+  options,
+}: {
+  url: string;
+  options: RequestInit;
+}): Promise<T | null> => {
+  try {
+    const res = await fetch(url, options);
 
-const headers = (api: string) =>
-  new Headers({
-    "Content-Type": "application/json",
-    "x-api-key": api,
-  });
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
 
-const catRequestOptions = {
-  method: "GET",
-  headers: headers(CAT_API),
-};
-
-const dogRequestOptions = {
-  method: "GET",
-  headers: headers(DOG_API),
+    return await res.json();
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 };
 
 export const getCatBreeds = async (): Promise<TPet[] | null> => {
-  try {
-    const res = await fetch(
-      "https://api.thecatapi.com/v1/images/search?has_breeds=true&limit=5",
-      catRequestOptions
-    );
-
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
-
-    return await res.json();
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+  return await apiFetch({
+    url: THE_CAT_URL + "/images/search?has_breeds=true&limit=5",
+    options: catRequestOptions,
+  });
 };
 
 export const getDogBreeds = async (): Promise<TPet[] | null> => {
-  try {
-    const res = await fetch(
-      "https://api.thedogapi.com/v1/images/search?has_breeds=true&limit=5",
-      dogRequestOptions
-    );
+  return await apiFetch({
+    url: THE_DOG_URL + "/images/search?has_breeds=true&limit=5",
+    options: dogRequestOptions,
+  });
+};
 
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
+export const getCatBreed = async (id: string): Promise<TCatBreed | null> => {
+  return await apiFetch({
+    url: `${THE_CAT_URL}/breeds/${id}`,
+    options: catRequestOptions,
+  });
+};
 
-    return await res.json();
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+export const getDogBreed = async (id: string): Promise<TDogBreed | null> => {
+  return await apiFetch({
+    url: `${THE_DOG_URL}/breeds/${id}`,
+    options: dogRequestOptions,
+  });
+};
+
+export const getCatBreedGalery = async (
+  id: string
+): Promise<TPetPhoto[] | null> => {
+  return await apiFetch({
+    url: `${THE_CAT_URL}/images/search?breed_ids=${id}&limit=12`,
+    options: catRequestOptions,
+  });
+};
+
+export const getDogBreedGalery = async (
+  id: string
+): Promise<TPetPhoto[] | null> => {
+  return await apiFetch({
+    url: `${THE_DOG_URL}/images/search?breed_ids=${id}&limit=12`,
+    options: dogRequestOptions,
+  });
 };

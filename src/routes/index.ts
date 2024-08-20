@@ -5,7 +5,7 @@ export const HOME_ROUTE: TRoute = {
   basePath: "/",
 };
 export const BREED_PAGE_ROUTE: TRoute = {
-  pathname: "/breed/[id]",
+  pathname: "/breed/[kind]/[id]",
   basePath: "/breed/",
 };
 

@@ -2,6 +2,7 @@
 
 import { useGetCatsData, useGetDogsData } from "@/hooks";
 import { Loading, PetList } from "@/components";
+import { EAnimal } from "@/types";
 
 export const AnimalList = () => {
   const cats = useGetCatsData();
@@ -12,7 +13,7 @@ export const AnimalList = () => {
   return (
     <div className="flex gap-4">
       <PetList list={cats} />
-      <PetList list={dogs} animalKind="DOG" />
+      <PetList list={dogs} animalKind={EAnimal.DOGS} />
     </div>
   );
 };

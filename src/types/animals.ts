@@ -1,26 +1,29 @@
-export type TAnimal = "CAT" | "DOG";
-
 export type TPet = {
+  breeds: TCatBreed[] | TDogBreed[];
+} & TPetPhoto;
+
+export type TPetPhoto = {
   height: number;
   id: string;
   url: string;
   width: number;
-  breeds: TPetsBreed[];
 };
 
-export type TPetsBreed = {
-  weight: Weight;
+export type TDogBreed = {
+  height: Weight;
+  id: number;
+  bred_for: string;
+  breed_group: string;
+} & TAnimalBreedBase;
+
+export type TCatBreed = {
   id: string;
-  name: string;
   cfa_url: string;
   vetstreet_url: string;
   vcahospitals_url: string;
-  temperament: string;
   origin: string;
   country_codes: string;
-  country_code: string;
   description: string;
-  life_span: string;
   indoor: number;
   lap: number;
   alt_names: string;
@@ -45,10 +48,18 @@ export type TPetsBreed = {
   short_legs: number;
   wikipedia_url: string;
   hypoallergenic: number;
+} & TAnimalBreedBase;
+
+export type TAnimalBreedBase = {
+  weight: Weight;
+  name: string;
+  country_code: string;
+  life_span: string;
+  temperament: string;
   reference_image_id: string;
 };
 
-type Weight = {
+export type Weight = {
   imperial: string;
   metric: string;
 };
