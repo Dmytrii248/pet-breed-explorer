@@ -6,3 +6,4 @@ export * from "./AnimalDetails";
 export * from "./CatDetails";
 export * from "./DogDetails";
 export * from "./Galery";
+export * from "./Search";
