@@ -27,48 +27,44 @@ const apiFetch = async <T>({
   }
 };
 
-export const getCatBreeds = async (): Promise<TPet[] | null> => {
+const catApiFetch = async <T>(url: string): Promise<T | null> => {
   return await apiFetch({
-    url: THE_CAT_URL + "/images/search?has_breeds=true&limit=5",
+    url: `${THE_CAT_URL}${url}`,
     options: catRequestOptions,
   });
+};
+
+const dogApiFetch = async <T>(url: string): Promise<T | null> => {
+  return await apiFetch({
+    url: `${THE_DOG_URL}${url}`,
+    options: dogRequestOptions,
+  });
+};
+
+export const getCatBreeds = async (): Promise<TPet[] | null> => {
+  return await catApiFetch("/images/search?has_breeds=true&limit=5");
 };
 
 export const getDogBreeds = async (): Promise<TPet[] | null> => {
-  return await apiFetch({
-    url: THE_DOG_URL + "/images/search?has_breeds=true&limit=5",
-    options: dogRequestOptions,
-  });
+  return await dogApiFetch("/images/search?has_breeds=true&limit=5");
 };
 
 export const getCatBreed = async (id: string): Promise<TCatBreed | null> => {
-  return await apiFetch({
-    url: `${THE_CAT_URL}/breeds/${id}`,
-    options: catRequestOptions,
-  });
+  return await catApiFetch(`/breeds/${id}`);
 };
 
 export const getDogBreed = async (id: string): Promise<TDogBreed | null> => {
-  return await apiFetch({
-    url: `${THE_DOG_URL}/breeds/${id}`,
-    options: dogRequestOptions,
-  });
+  return await dogApiFetch(`/breeds/${id}`);
 };
 
 export const getCatBreedGalery = async (
   id: string
 ): Promise<TPetPhoto[] | null> => {
-  return await apiFetch({
-    url: `${THE_CAT_URL}/images/search?breed_ids=${id}&limit=12`,
-    options: catRequestOptions,
-  });
+  return await catApiFetch(`/images/search?breed_ids=${id}&limit=12`);
 };
 
 export const getDogBreedGalery = async (
   id: string
 ): Promise<TPetPhoto[] | null> => {
-  return await apiFetch({
-    url: `${THE_DOG_URL}/images/search?breed_ids=${id}&limit=12`,
-    options: dogRequestOptions,
-  });
+  return await dogApiFetch(`/images/search?breed_ids=${id}&limit=12`);
 };
